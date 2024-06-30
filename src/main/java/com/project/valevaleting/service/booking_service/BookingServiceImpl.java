@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.project.valevaleting.utils.Constants.*;
 import static com.project.valevaleting.utils.EnumUtils.generateReference;
 
 
@@ -89,6 +90,17 @@ public class BookingServiceImpl implements BookingService {
 
         return buildBookingDetailsResponse(bookingDetailsResponse, totalBookingToday, totalBookingThisWeek, totalBookingThisMonth, totalIncomeToday, totalIncomeThisWeek, totalIncomeThisMonth, page, bookingDtoList);
         
+    }
+
+    @Override
+    public String verifyBooking(String reference) {
+        Booking booking = bookingRepository.findByReference(reference).orElseThrow(()-> new GenericException(BOOKING_NOT_FOUND,HttpStatus.BAD_REQUEST));
+        if(booking.isValidated()){
+            throw new GenericException(ALREADY_VALIDATED,HttpStatus.BAD_REQUEST);
+        }
+        booking.setValidated(true);
+        bookingRepository.save(booking);
+        return VALIDATED;
     }
 
     private void analyseBookingDetails(Page<Booking> page, AtomicLong totalBookingToday, AtomicDouble totalIncomeToday, AtomicLong totalBookingThisWeek, AtomicDouble totalIncomeThisWeek, AtomicLong totalBookingThisMonth, AtomicDouble totalIncomeThisMonth) {

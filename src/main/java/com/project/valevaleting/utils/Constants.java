@@ -6,8 +6,8 @@ public class Constants {
     public static final String TRANSACTION_ALREADY_EXIST = "Transaction with same payment reference already exist";
     public static final String USER_NOT_FOUND = "User not found";
     public static final String ADMIN_EMAIL = "adeyinkawale13@gmail.com";
-    public static final String TICKET_NOT_FOUND = "Ticket not found for provided id";
-    public static final String ALREADY_VALIDATED = "Ticket already validated for entry";
+    public static final String BOOKING_NOT_FOUND = "Booking record not found for provided reference";
+    public static final String ALREADY_VALIDATED = "Booking request already validated";
     public static final String OTP_EMAIL_DESCRIPTION  = "OTP Email";
     public static final String INVALID_TICKET_TYPE  = "Invalid discount type";
     public static final String INVALID_Role  = "Invalid role provided";
