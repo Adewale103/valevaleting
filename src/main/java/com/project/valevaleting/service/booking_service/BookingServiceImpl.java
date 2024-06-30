@@ -36,18 +36,18 @@ import static com.project.valevaleting.utils.EnumUtils.generateReference;
 public class BookingServiceImpl implements BookingService {
     private final EmailService emailService;
     private final BookingRepository bookingRepository;
-    private final String payStackSecrets;
+//    private final String payStackSecrets;
     private final String qrCodeUrl;
     private final RestTemplate restTemplate;
 
 
     public BookingServiceImpl(EmailService emailService,
                               RestTemplateBuilder restTemplateBuilder,
-                              @Value(value = "${paystack.secret.key}") String payStackSecrets,
+//                              @Value(value = "${paystack.secret.key}") String payStackSecrets,
                               @Value(value = "${qr.code.url}") String qrCodeUrl,
                              BookingRepository bookingRepository) {
         this.emailService = emailService;
-        this.payStackSecrets = payStackSecrets;
+//        this.payStackSecrets = payStackSecrets;
         this.restTemplate = restTemplateBuilder.build();
         this.bookingRepository = bookingRepository;
         this.qrCodeUrl = qrCodeUrl;
