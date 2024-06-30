@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface BookingRepository extends CrudRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
     boolean existsByEmailAndPaymentReference(String email, String paymentReference);
 
-    List<Booking> findByPaymentReference(String reference);
-    List<Booking> findByReference(String reference);
+    Optional<Booking> findByPaymentReference(String reference);
+    Optional<Booking> findByReference(String reference);
     List<Booking> findByEmail(String email);
 }

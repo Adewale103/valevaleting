@@ -18,4 +18,6 @@ public interface BookingService {
     List<BookingDto> fetchBookingHistory(UserDto userDto);
 
     BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs);
+
+    String verifyBooking(String reference);
 }
