@@ -42,7 +42,7 @@ public class AdminController {
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/verify/{reference}", produces = "application/json")
+    @GetMapping(value = "/verify/{reference}", produces = "application/json")
     public ResponseEntity<ResponseDto> verifyBooking(@PathVariable String reference) {
         String response = bookingService.verifyBooking(reference);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.OK);
