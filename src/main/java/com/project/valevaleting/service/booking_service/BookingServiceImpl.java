@@ -9,6 +9,7 @@ import com.project.valevaleting.dto.response.PageDto;
 import com.project.valevaleting.entities.Booking;
 import com.project.valevaleting.exception.GenericException;
 import com.project.valevaleting.repository.BookingRepository;
+import com.project.valevaleting.service.cloudinary.CloudinaryService;
 import com.project.valevaleting.service.messaging_service.email.EmailService;
 import com.project.valevaleting.specifications.BookingSpecs;
 import com.project.valevaleting.utils.BeanUtilHelper;
@@ -37,18 +38,18 @@ import static com.project.valevaleting.utils.EnumUtils.generateReference;
 public class BookingServiceImpl implements BookingService {
     private final EmailService emailService;
     private final BookingRepository bookingRepository;
-//    private final String payStackSecrets;
+    private final CloudinaryService cloudinaryService;
     private final String qrCodeUrl;
     private final RestTemplate restTemplate;
 
 
     public BookingServiceImpl(EmailService emailService,
                               RestTemplateBuilder restTemplateBuilder,
-//                              @Value(value = "${paystack.secret.key}") String payStackSecrets,
+                              CloudinaryService cloudinaryService,
                               @Value(value = "${qr.code.url}") String qrCodeUrl,
                              BookingRepository bookingRepository) {
         this.emailService = emailService;
-//        this.payStackSecrets = payStackSecrets;
+        this.cloudinaryService = cloudinaryService;
         this.restTemplate = restTemplateBuilder.build();
         this.bookingRepository = bookingRepository;
         this.qrCodeUrl = qrCodeUrl;
@@ -143,8 +144,10 @@ public class BookingServiceImpl implements BookingService {
         booking.setReference(generateReference());
         booking = bookingRepository.save(booking);
         byte[] qr = Utils.generateQRCode(String.format("%s?bookingReference=%s&validated=%s",qrCodeUrl,booking.getReference(),booking.isValidated()),400,400);
+        String url = cloudinaryService.uploadFile(qr,"qrcode");
         sendBookingEmail(booking, qr);
         BeanUtilHelper.copyPropertiesIgnoreNull(booking,bookingDto);
+        bookingDto.setQrCodeUrl(url);
         return bookingDto;
     }
 

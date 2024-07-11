@@ -12,6 +12,7 @@ public class BookingRequest {
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
     private String amount;
     private String additionalInfo;
     private String vehicleRegistrationNumber;

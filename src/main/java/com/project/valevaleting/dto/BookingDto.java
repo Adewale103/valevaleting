@@ -17,6 +17,7 @@ public class BookingDto {
     private String phoneNumber;
     private String paymentDate;
     private String amount;
+    private String qrCodeUrl;
     private boolean validated;
     private String paymentReference;
     private String additionalInfo;
