@@ -36,7 +36,7 @@ public class SecurityConfiguration {
     private final CustomAccessDeniedHandler accessDeniedHandler;
 
     private static final Long MAX_AGE = 3600L;
-    private static final int CORS_FILTER_ORDER = -102;
+    private static final int CORS_FILTER_ORDER = -1020000000;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -72,6 +72,7 @@ public class SecurityConfiguration {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("https://vale-valeting.vercel.app");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
