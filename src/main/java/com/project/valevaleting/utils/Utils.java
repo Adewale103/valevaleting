@@ -107,10 +107,10 @@ public class Utils {
        return dateTime.format(DateTimeFormatter.ofPattern("MMMM d yyyy"));
     }
 
-    public static byte[] generateQRCode(String url, int width, int height)  {
+    public static byte[] generateQRCode(String code, int width, int height)  {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.QR_CODE, width, height);
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
         }
