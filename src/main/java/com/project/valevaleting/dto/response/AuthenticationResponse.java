@@ -15,6 +15,10 @@ import java.util.List;
 public class AuthenticationResponse {
     private String id;
     private String email;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("role_name")
+    private String roleName;
     private List<String> roles;
 
     @JsonProperty("access_token")

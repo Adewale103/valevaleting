@@ -59,6 +59,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .accessToken(jwt)
+                .firstName(user.getFirstname())
+                .roleName(String.valueOf(request.getRole()))
                 .email(user.getEmail())
                 .id(user.getReference())
                 .refreshToken(refreshToken.getToken())
@@ -81,6 +83,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var refreshToken = refreshTokenService.createRefreshToken(user.getId());
         return AuthenticationResponse.builder()
                 .accessToken(jwt)
+                .firstName(user.getFirstname())
+                .roleName(String.valueOf(user.getRole()))
                 .roles(roles)
                 .email(user.getEmail())
                 .id(user.getReference())
