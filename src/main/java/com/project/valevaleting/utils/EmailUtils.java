@@ -32,6 +32,7 @@ public class EmailUtils {
         String subject = "Vale Valenting Services: Your booking was successful";
 
         String messageContent = generateBookingEmailContent();
+        messageContent = generateBookingEmailContent().replace("#date",booking.getDate()).replace("#time",booking.getTime());
         sendEmail(subject,booking.getEmail(),messageContent, qrCode);
     }
 
@@ -167,8 +168,8 @@ public class EmailUtils {
                            
                                        <div class="service-details">
                                            <p style="font-weight: 600; font-size: 20px; line-height: 24px;">Car Wash Service Details</p>
-                                           <p>Service Date: 27th June, 2024</p>
-                                           <p>Time: 10am</p>
+                                           <p>Service Date: #date </p>
+                                           <p>Time: #time</p>
                                            <p>Location: Vale Valeting Services Center</p>
                                        </div>
                                        <p>Find attached the QR code generated for the booking.</p>
