@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 public class BookingDto {
     private String email;
+    private String firstName;
+    private String lastName;
     private String reference;
     private String userReference;
     private String phoneNumber;

@@ -69,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> fetchBookingHistory(UserDto userDto) {
-        List<Booking> bookings = bookingRepository.findByEmail(userDto.getEmail());
+        List<Booking> bookings = bookingRepository.findByEmailOrderByDateCreatedDesc(userDto.getEmail());
         return bookings.stream().map(BookingDto::map).toList();
     }
 

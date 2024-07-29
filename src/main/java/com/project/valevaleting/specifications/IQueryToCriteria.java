@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,8 @@ public abstract class IQueryToCriteria<T> implements Specification<T> {
     private final String fullTextValue;
     private int page;
     private int size;
+    private Sort sort;
+
 
     public IQueryToCriteria(String query) {
         criteriaList = CriteriaConverter.queryToCriteria(query);
@@ -74,8 +77,12 @@ public abstract class IQueryToCriteria<T> implements Specification<T> {
         this.page = page;
     }
 
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
     public Pageable getPageable() {
-        return PageRequest.of(page, size);
+        return PageRequest.of(page, size, sort);
     }
     // end pagination // access modifiers
 

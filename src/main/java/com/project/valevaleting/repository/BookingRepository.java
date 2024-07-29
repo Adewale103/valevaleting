@@ -15,5 +15,5 @@ public interface BookingRepository extends CrudRepository<Booking, Long>, JpaSpe
 
     Optional<Booking> findByPaymentReference(String reference);
     Optional<Booking> findByReference(String reference);
-    List<Booking> findByEmail(String email);
+    List<Booking> findByEmailOrderByDateCreatedDesc(String email);
 }
