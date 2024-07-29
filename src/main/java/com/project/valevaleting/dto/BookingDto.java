@@ -32,6 +32,7 @@ public class BookingDto {
     public static BookingDto map(Booking booking){
         BookingDto bookingDto = new BookingDto();
         BeanUtilHelper.copyPropertiesIgnoreNull(booking, bookingDto);
+        bookingDto.setPaymentDate(booking.getDateCreated().toLocalDate().toString());
         return  bookingDto;
     }
 }

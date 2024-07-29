@@ -142,11 +142,13 @@ public class BookingServiceImpl implements BookingService {
         BookingDto bookingDto = new BookingDto();
         BeanUtilHelper.copyPropertiesIgnoreNull(bookingRequest, booking);
         booking.setReference(generateReference());
+        booking.setPaymentReference(generateReference());
         booking = bookingRepository.save(booking);
         byte[] qr = Utils.generateQRCode(booking.getReference(),400,400);
         String url = cloudinaryService.uploadFile(qr,"qrcode");
         sendBookingEmail(booking, qr);
         BeanUtilHelper.copyPropertiesIgnoreNull(booking,bookingDto);
+        bookingDto.setPaymentDate(booking.getDateCreated().toLocalDate().toString());
         bookingDto.setQrCodeUrl(url);
         return bookingDto;
     }
