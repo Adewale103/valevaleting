@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -69,12 +70,20 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> fetchBookingHistory(UserDto userDto) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<Booking> bookings = bookingRepository.findByEmailOrderByDateCreatedDesc(userDto.getEmail());
-        return bookings.stream().map(BookingDto::map).toList();
+        return bookings.stream().map(BookingDto::map).sorted(Comparator.comparing(
+                bookingDto -> {
+                    String createdDateString = bookingDto.getPaymentDate();
+                    return createdDateString.isEmpty() ? LocalDate.MIN : LocalDate.parse(createdDateString, dateFormatter);
+                },
+                Comparator.reverseOrder()
+        )).toList();
     }
 
     @Override
     public BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         BookingDetailsResponse bookingDetailsResponse  = new BookingDetailsResponse();
         Page<Booking> page = bookingRepository.findAll(bookingSpecs, bookingSpecs.getPageable());
         
@@ -87,7 +96,13 @@ public class BookingServiceImpl implements BookingService {
 
         analyseBookingDetails(page, totalBookingToday, totalIncomeToday, totalBookingThisWeek, totalIncomeThisWeek, totalBookingThisMonth, totalIncomeThisMonth);
 
-        List<BookingDto> bookingDtoList = page.stream().map(BookingDto::map).toList();
+        List<BookingDto> bookingDtoList = page.stream().map(BookingDto::map).sorted(Comparator.comparing(
+                bookingDto -> {
+                    String createdDateString = bookingDto.getPaymentDate();
+                    return createdDateString.isEmpty() ? LocalDate.MIN : LocalDate.parse(createdDateString, dateFormatter);
+                },
+                Comparator.reverseOrder()
+        )).toList();
 
         return buildBookingDetailsResponse(bookingDetailsResponse, totalBookingToday, totalBookingThisWeek, totalBookingThisMonth, totalIncomeToday, totalIncomeThisWeek, totalIncomeThisMonth, page, bookingDtoList);
         
