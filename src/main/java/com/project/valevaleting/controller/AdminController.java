@@ -10,6 +10,7 @@ import com.project.valevaleting.specifications.BookingSpecs;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,7 @@ public class AdminController {
         BookingSpecs bookingSpecs = new BookingSpecs(query);
         bookingSpecs.setPage(page);
         bookingSpecs.setSize(size);
-//        bookingSpecs.setSort(Sort.by(Sort.Order.desc("dateCreated")));
-        BookingDetailsResponse response = bookingService.viewAllBookingDetails(bookingSpecs);
+        BookingDetailsResponse response = bookingService.viewAllBookingDetails();
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
 
