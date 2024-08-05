@@ -86,7 +86,9 @@ public class BookingServiceImpl implements BookingService {
     public BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         BookingDetailsResponse bookingDetailsResponse  = new BookingDetailsResponse();
+        log.info("Step 1");
         Page<Booking> page = bookingRepository.findAll(bookingSpecs, bookingSpecs.getPageable());
+        log.info("Step 2");
         
         AtomicLong totalBookingToday = new AtomicLong(0);
         AtomicLong totalBookingThisWeek = new AtomicLong(0);
@@ -96,7 +98,7 @@ public class BookingServiceImpl implements BookingService {
         AtomicDouble totalIncomeThisMonth = new AtomicDouble(0.0);
 
         analyseBookingDetails(page, totalBookingToday, totalIncomeToday, totalBookingThisWeek, totalIncomeThisWeek, totalBookingThisMonth, totalIncomeThisMonth);
-
+        log.info("Step 3");
         List<BookingDto> bookingDtoList = page.stream().map(BookingDto::map).sorted(Comparator.comparing(
                 bookingDto -> {
                     String createdDateString = bookingDto.getPaymentDate();
