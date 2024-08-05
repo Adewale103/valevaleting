@@ -83,10 +83,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDetailsResponse viewAllBookingDetails(Pageable pageable) {
+    public BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         BookingDetailsResponse bookingDetailsResponse  = new BookingDetailsResponse();
-        Page<Booking> page = bookingRepository.findAll(pageable);
+        Page<Booking> page = bookingRepository.findAll(bookingSpecs, bookingSpecs.getPageable());
         
         AtomicLong totalBookingToday = new AtomicLong(0);
         AtomicLong totalBookingThisWeek = new AtomicLong(0);

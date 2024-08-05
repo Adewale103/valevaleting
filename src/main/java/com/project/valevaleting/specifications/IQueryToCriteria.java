@@ -25,6 +25,7 @@ public abstract class IQueryToCriteria<T> implements Specification<T> {
     private final String fullTextValue;
     private int page;
     private int size;
+    private Sort sort;
 
 
     public IQueryToCriteria(String query) {
@@ -76,9 +77,13 @@ public abstract class IQueryToCriteria<T> implements Specification<T> {
         this.page = page;
     }
 
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
 
     public Pageable getPageable() {
-        return PageRequest.of(page, size);
+        return PageRequest.of(page, size, sort);
     }
     // end pagination // access modifiers
 

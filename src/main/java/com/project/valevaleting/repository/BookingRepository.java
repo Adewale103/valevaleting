@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface BookingRepository extends JpaRepository<Booking, Long> {
+public interface BookingRepository extends CrudRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
     boolean existsByEmailAndPaymentReference(String email, String paymentReference);
 
     Optional<Booking> findByPaymentReference(String reference);

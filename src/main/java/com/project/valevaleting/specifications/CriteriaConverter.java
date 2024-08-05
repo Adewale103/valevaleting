@@ -31,7 +31,7 @@ public class CriteriaConverter {
     public static List<Criteria> queryToCriteria(String query, String... ignoreParameters) {
         List<Criteria> criteriaList = new ArrayList<>();
 
-        if (Objects.isNull(query) || !StringUtils.hasText(query) || !query.contains("=") || !query.contains("~")) {
+        if (!StringUtils.hasText(query)) {
             return criteriaList;
         }
 
