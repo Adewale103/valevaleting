@@ -6,6 +6,7 @@ import com.project.valevaleting.dto.BookingDto;
 import com.project.valevaleting.dto.UserDto;
 import com.project.valevaleting.dto.request.BookingRequest;
 import com.project.valevaleting.specifications.BookingSpecs;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface BookingService {
 
     List<BookingDto> fetchBookingHistory(UserDto userDto);
 
-    BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs);
+    BookingDetailsResponse viewAllBookingDetails(Pageable pageable);
 
     String verifyBooking(String reference);
 }

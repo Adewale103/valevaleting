@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -82,10 +83,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDetailsResponse viewAllBookingDetails(BookingSpecs bookingSpecs) {
+    public BookingDetailsResponse viewAllBookingDetails(Pageable pageable) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         BookingDetailsResponse bookingDetailsResponse  = new BookingDetailsResponse();
-        Page<Booking> page = bookingRepository.findAll(bookingSpecs, bookingSpecs.getPageable());
+        Page<Booking> page = bookingRepository.findAll(pageable);
         
         AtomicLong totalBookingToday = new AtomicLong(0);
         AtomicLong totalBookingThisWeek = new AtomicLong(0);

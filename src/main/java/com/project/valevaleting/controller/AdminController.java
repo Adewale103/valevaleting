@@ -10,6 +10,7 @@ import com.project.valevaleting.specifications.BookingSpecs;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -37,10 +38,11 @@ public class AdminController {
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
 
-        BookingSpecs bookingSpecs = new BookingSpecs(query);
-        bookingSpecs.setPage(page);
-        bookingSpecs.setSize(size);
-        BookingDetailsResponse response = bookingService.viewAllBookingDetails(bookingSpecs);
+//        BookingSpecs bookingSpecs = new BookingSpecs(query);
+//        bookingSpecs.setPage(page);
+//        bookingSpecs.setSize(size);
+        Pageable pageable = PageRequest.of(page, size);
+        BookingDetailsResponse response = bookingService.viewAllBookingDetails(pageable);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
 
