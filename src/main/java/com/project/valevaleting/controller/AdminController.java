@@ -33,15 +33,15 @@ public class AdminController {
 
     @GetMapping(value = "/view-bookings", produces = "application/json")
     public ResponseEntity<ResponseDto> viewAllBookingDetails(
-            @RequestParam(value = "q", required = false) String query,
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+//            @RequestParam(value = "q", required = false) String query,
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
 
 //        BookingSpecs bookingSpecs = new BookingSpecs(query);
 //        bookingSpecs.setPage(page);
 //        bookingSpecs.setSize(size);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page-1, size);
         BookingDetailsResponse response = bookingService.viewAllBookingDetails(pageable);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
