@@ -40,7 +40,7 @@ public class AdminController {
         BookingSpecs bookingSpecs = new BookingSpecs(query);
         bookingSpecs.setPage(page);
         bookingSpecs.setSize(size);
-        BookingDetailsResponse response = bookingService.viewAllBookingDetails();
+        BookingDetailsResponse response = bookingService.viewAllBookingDetails(bookingSpecs);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
 
