@@ -39,7 +39,7 @@ public class AdminController {
         BookingSpecs bookingSpecs = new BookingSpecs(query);
         bookingSpecs.setPage(page);
         bookingSpecs.setSize(size);
-        bookingSpecs.setSort(Sort.by(Sort.Order.desc("dateCreated")));
+//        bookingSpecs.setSort(Sort.by(Sort.Order.desc("dateCreated")));
         BookingDetailsResponse response = bookingService.viewAllBookingDetails(bookingSpecs);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.CREATED);
     }
