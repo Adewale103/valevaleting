@@ -84,6 +84,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwt)
                 .firstName(user.getFirstname())
+                .lastName(user.getLastname())
                 .roleName(String.valueOf(user.getRole()))
                 .roles(roles)
                 .email(user.getEmail())

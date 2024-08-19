@@ -17,6 +17,9 @@ public class AuthenticationResponse {
     private String email;
     @JsonProperty("first_name")
     private String firstName;
+
+    @JsonProperty("last_name")
+    private String lastName;
     @JsonProperty("role_name")
     private String roleName;
     private List<String> roles;
