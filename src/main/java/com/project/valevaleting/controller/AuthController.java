@@ -114,7 +114,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/otp", produces = "application/json")
-    public ResponseEntity<ResponseDto> sendOTP(OTP otp) throws MessagingException {
+    public ResponseEntity<ResponseDto> sendOTP(@RequestBody OTP otp) throws MessagingException {
         String response = authenticationService.sendOTP(otp);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.OK);
     }
