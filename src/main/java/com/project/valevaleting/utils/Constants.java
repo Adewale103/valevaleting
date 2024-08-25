@@ -15,7 +15,7 @@ public class Constants {
     public static final String VALIDATED  = "Validated";
     public static final String INVALID_OTP = "Invalid Otp";
     public static final String INVALID_DISCOUNT = "Invalid discount ";
-    public static final String CODE_ALREADY_EXIST = "Discount code already exist for ticket type";
+    public static final String PASSWORD_RESET_SUCCESSFUL = "Password reset successful";
     public static final String ACCOUNT_CREATED = "Account successfully created. Kindly check your email";
     public static final String SUBSCRIBER_CREATED = "Subscription successful";
     public final static String X_ACCESS_TOKEN = "X-Access-Token";

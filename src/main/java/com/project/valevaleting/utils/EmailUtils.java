@@ -30,10 +30,19 @@ public class EmailUtils {
     //Todo Remove hardcoded event details and make it dynamic
     public void sendBookingDetails(Booking booking, byte[] qrCode) throws MessagingException {
         String subject = "Vale Valenting Services: Your booking was successful";
-
-        String messageContent = generateBookingEmailContent();
-        messageContent = generateBookingEmailContent().replace("#date",booking.getDate()).replace("#time",booking.getTime());
+        String messageContent = generateBookingEmailContent().replace("#date",booking.getDate()).replace("#time",booking.getTime());
         sendEmail(subject,booking.getEmail(),messageContent, qrCode);
+    }
+
+    private void sendEmail(String subject, String receiverEmail, String messageContent) throws jakarta.mail.MessagingException {
+        jakarta.mail.internet.MimeMessage message = mailSender.createMimeMessage();
+
+        message.setFrom("valevaletingservices@gmail.com");
+        message.setRecipients(Message.RecipientType.TO, receiverEmail);
+        message.setSubject(subject);
+        message.setContent(messageContent, "text/html; charset=utf-8");
+
+        mailSender.send(message);
     }
 
     private void sendEmail(String subject, String receiverEmail, String messageContent, byte[] qrCode) throws MessagingException {
@@ -95,6 +104,41 @@ public class EmailUtils {
                 "</body>\n" +
                 "</html>";
     }
+
+    public void sendOTPEmail(String userName, String otp, String email) throws jakarta.mail.MessagingException {
+        String subject = "Hey! Let's verify it's you.";
+        String messageContent = generateOtpEmailContent(userName, otp);
+        sendEmail(subject, email, messageContent);
+    }
+
+    private String generateOtpEmailContent(String userName, String otp) {
+
+        String cssStyles = "<style>\n" +
+                "    body { font-family: Arial, sans-serif; background-color: #f2f2f2; }\n" +
+                "    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 2px solid #008000; }\n" +
+                "    h1 { color: #008000; font-size: 24px; margin-bottom: 20px; }\n" +
+                "    p { color: #000000; font-size: 16px; line-height: 1.5; }\n" +
+                "    a { color: #008000; text-decoration: none; }\n" +
+                "    a:hover { text-decoration: underline; }\n" +
+                "</style>";
+
+        // HTML content for the email
+        return "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                cssStyles +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"container\">\n" +
+                "        <h1 style=\"border-bottom: 2px solid #008000; padding-bottom: 10px;\">Hello, " + userName + "!</h1>\n" +
+                "        <p>Your One-Time Password (OTP) is:</p>\n" +
+                "        <p style=\"font-size: 20px; color: #008000; font-weight: bold;\">" + otp + "</p>\n" +
+                "        <p>This OTP is required for a secure login and authentication process. Please do not share it with anyone. If you did not request this OTP, please ignore this email.</p>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
 
 
     //Todo Move to properties file

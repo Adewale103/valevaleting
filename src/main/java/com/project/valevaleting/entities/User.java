@@ -35,6 +35,7 @@ public class User implements UserDetails{
     private String email;
     private String phoneNumber;
     private String password;
+    private String otp;
 
     @Enumerated(EnumType.STRING)
     private Role role;

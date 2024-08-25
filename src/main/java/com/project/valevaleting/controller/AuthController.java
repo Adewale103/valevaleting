@@ -2,8 +2,7 @@ package com.project.valevaleting.controller;
 
 
 
-import com.project.valevaleting.dto.ResponseDto;
-import com.project.valevaleting.dto.UserDto;
+import com.project.valevaleting.dto.*;
 import com.project.valevaleting.dto.request.AuthenticationRequest;
 import com.project.valevaleting.dto.request.RefreshTokenRequest;
 import com.project.valevaleting.dto.request.RegisterRequest;
@@ -17,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +79,13 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE,refreshTokenCookie.toString())
                 .body(ResponseDto.wrapSuccessResult(authenticationResponse,"successful"));
     }
+
+    @PostMapping("/reset/password")
+    public ResponseEntity<ResponseDto> resetPassword(@Valid @RequestBody ResetPassword request) {
+        String authenticationResponse = authenticationService.resetPassword(request);
+        return ResponseEntity.ok().body(ResponseDto.wrapSuccessResult(authenticationResponse,"successful"));
+    }
+
     @PostMapping("/refresh-token")
     public ResponseEntity<ResponseDto> refreshToken(@RequestBody RefreshTokenRequest request) {
         return ResponseEntity.ok(ResponseDto.wrapSuccessResult(refreshTokenService.generateNewToken(request),"successful"));
@@ -105,6 +112,13 @@ public class AuthController {
         UserDto userDto = authenticationService.fetchUser(request);
         return new ResponseEntity<>(ResponseDto.wrapSuccessResult(userDto,"successful"), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/otp", produces = "application/json")
+    public ResponseEntity<ResponseDto> sendOTP(OTP otp) throws MessagingException {
+        String response = authenticationService.sendOTP(otp);
+        return new ResponseEntity<>(ResponseDto.wrapSuccessResult(response,"successful"), HttpStatus.OK);
+    }
+
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request){

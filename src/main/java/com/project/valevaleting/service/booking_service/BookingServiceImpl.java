@@ -14,6 +14,7 @@ import com.project.valevaleting.service.messaging_service.email.EmailService;
 import com.project.valevaleting.specifications.BookingSpecs;
 import com.project.valevaleting.utils.BeanUtilHelper;
 import com.project.valevaleting.utils.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -33,6 +34,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.project.valevaleting.utils.Constants.*;
 import static com.project.valevaleting.utils.EnumUtils.generateReference;
+import static com.project.valevaleting.utils.Utils.generateRandomOTPNumber;
 
 
 @Service

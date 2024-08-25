@@ -1,6 +1,9 @@
 package com.project.valevaleting.service.security;
 
 
+import com.project.valevaleting.dto.OTP;
+import com.project.valevaleting.dto.OTPResponse;
+import com.project.valevaleting.dto.ResetPassword;
 import com.project.valevaleting.dto.UserDto;
 import com.project.valevaleting.dto.request.AuthenticationRequest;
 import com.project.valevaleting.dto.request.RegisterRequest;
@@ -9,7 +12,10 @@ import com.project.valevaleting.entities.User;
 import com.project.valevaleting.enums.TokenType;
 import com.project.valevaleting.exception.GenericException;
 import com.project.valevaleting.repository.UserRepository;
+import com.project.valevaleting.service.messaging_service.email.EmailService;
 import com.project.valevaleting.utils.BeanUtilHelper;
+import com.project.valevaleting.utils.EmailUtils;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +27,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.project.valevaleting.utils.Constants.USER_ALREADY_EXIST;
+import java.util.Objects;
+
+import static com.project.valevaleting.utils.Constants.*;
 import static com.project.valevaleting.utils.EnumUtils.generateReference;
+import static com.project.valevaleting.utils.Utils.generateRandomOTPNumber;
 
 
 @Service @Transactional
@@ -34,6 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final EmailService emailService;
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -102,6 +112,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(()-> new GenericException("User not found", HttpStatus.BAD_REQUEST));
         BeanUtilHelper.copyPropertiesIgnoreNull(user, userDto);
         return userDto;
+    }
+
+    public String sendOTP(OTP request) throws MessagingException {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
+        String otp = generateRandomOTPNumber();
+        user.setOtp(otp);
+        userRepository.save(user);
+        emailService.sendOTPEmail(user);
+        return OTP_SENT;
+    }
+
+    @Override
+    public String resetPassword(ResetPassword request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
+        if(Objects.isNull(user.getOtp()) || !request.getOtp().equalsIgnoreCase(user.getOtp())){
+         throw new GenericException(INVALID_OTP, HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(request.getPassword());
+        userRepository.save(user);
+        return PASSWORD_RESET_SUCCESSFUL;
     }
 
 

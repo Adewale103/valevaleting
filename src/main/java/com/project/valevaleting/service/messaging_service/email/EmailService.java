@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public interface EmailService {
     void sendWelcomeEmail(String toEmail, String emailContent);
-
+    void sendOTPEmail(User user) throws MessagingException;
     void sendBookingDetails(Booking booking, byte[] qrCode) throws MessagingException;
 
     void sendPaymentComplaintEmail(String email, BigDecimal amountPaid, Double amount) throws MessagingException;

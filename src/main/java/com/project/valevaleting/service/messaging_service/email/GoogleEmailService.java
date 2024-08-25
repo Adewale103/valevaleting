@@ -1,6 +1,7 @@
 package com.project.valevaleting.service.messaging_service.email;
 
 import com.project.valevaleting.entities.Booking;
+import com.project.valevaleting.entities.User;
 import com.project.valevaleting.utils.EmailUtils;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,11 @@ public class GoogleEmailService implements EmailService{
     @Override
     public void sendWelcomeEmail(String toEmail, String emailContent) {
 
+    }
+
+    @Override
+    public void sendOTPEmail(User user) throws MessagingException {
+        emailUtils.sendOTPEmail(user.getFirstname(), user.getOtp(), user.getEmail());
     }
 
     @Override
