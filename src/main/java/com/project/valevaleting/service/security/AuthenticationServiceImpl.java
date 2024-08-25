@@ -129,7 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(Objects.isNull(user.getOtp()) || !request.getOtp().equalsIgnoreCase(user.getOtp())){
          throw new GenericException(INVALID_OTP, HttpStatus.BAD_REQUEST);
         }
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         return PASSWORD_RESET_SUCCESSFUL;
     }
